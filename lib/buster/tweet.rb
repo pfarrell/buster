@@ -10,6 +10,7 @@ class Twitter::Tweet
             date: created_at, 
             favorites: favorite_count,
             retweets: retweet_count,
+            hashtags: hashtags.map{|hashtag| hashtag.text}.to_json(opts),
             user: user.to_json(opts)
           }
   end
