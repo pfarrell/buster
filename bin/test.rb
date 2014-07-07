@@ -3,8 +3,7 @@ require 'json'
 
 
 def broadcast(spy, tweet)
-  puts tweet.text
-  puts spy.count
+  puts tweet.to_json
 end
 
 
