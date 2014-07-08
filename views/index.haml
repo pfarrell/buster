@@ -1,0 +1,7 @@
+%html
+  %head
+    %script
+      var stream = new EventSource('/the_stream');
+      stream.onmessage = function(e) {
+        alert("I just got this from the server: " + e.data);
+      }

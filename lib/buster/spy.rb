@@ -15,10 +15,7 @@ class Spy
 
   def handle(tweet, &block)
     @count += 1
-    case tweet
-      when Twitter::Tweet
-        block.call(self, tweet)
-    end
+    block.call(self, tweet) if tweet.is_a? Twitter::Tweet
   end
 
   def sample(&block)
