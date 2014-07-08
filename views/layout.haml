@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+%html
+  %head
+    %title#title
+      #{@title}
+    %meta{:charset => "utf-8"}
+    %meta{:name => "viewport", :content=>"width=device-width, initial-scale=1, maximum-scale=1"}
+    %meta{:name=>"apple-mobile-web-app-capable", :content=>"yes"}
+    %script{:type => "text/javascript", :src => "http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"}
+    <!--%link{:rel => "stylesheet", :href => "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css", :type => "text/css"}-->
+    %link{:rel => "stylesheet", :href => "#{url_for '/css/bootstrap/3.1.1/bootstrap.min.css'}", :type => "text/css"}
+    %link{:rel => "stylesheet", :href => "#{url_for '/css/default.css'}", :type => "text/css", :media => "screen" }
+  %body
+    %div.navbar.navbar-default.navbar-fixed-top
+      %div.container
+        %div.navbar-header
+          %form.navbar-form.navbar-left{id: "search", action: "#{url_for("/search")}", method: "GET"}
+            .form-group
+              %input.form-control{type: "TEXT", id: "q", name: "q"}
+            %span.jp_current_track_title
+    %div.container#content
+      =yield
+    %div.container
+      %div.row
+        %div.twelvecol
+          %div.container.footer
