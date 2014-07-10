@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'sinatra/streaming'
 require 'redis'
+require 'json'
 require 'haml'
 
 class Windowing < Sinatra::Base
@@ -17,7 +18,9 @@ class Windowing < Sinatra::Base
 
       settings.r.subscribe "tweets:raw" do |on|
         on.message do |channel, msg|
-          out.puts({time: Time.now, channel: channel, message: msg})
+          settings.connections.each do |out|
+            out.puts({time: Time.now, channel: channel, message: msg}.to_json + "\n\n")
+          end
         end
       end
     end
