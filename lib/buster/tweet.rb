@@ -6,6 +6,7 @@ class Twitter::Tweet
   def to_json(opts={})
     ret = {
             id: id, 
+            lang: lang,
             text: text, 
             date: created_at, 
             favorites: favorite_count,
