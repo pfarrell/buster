@@ -1,12 +1,13 @@
 <html>
   <head>
-    <script>
-      var stream = new EventSource('/tweet_stream');
-      stream.onmessage = function(e) {
-          alert("I just got this from the server: " + e.data);
-      }
-    </script>
   </head>
   <body>
+    <article id="log"></article>
+    <script>
+      var stream = new EventSource('/tweet_stream');
+      stream.addEventListener('message', function(event) {
+        log.innerText += "\n" + event.data;
+      }, false);
+    </script>
   </body>
 </html>
