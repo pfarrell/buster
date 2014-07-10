@@ -5,6 +5,7 @@ Stream listener and publisher.
 Uses Redis to publish tweets.
 Sinatra app to create streaming api.
 
+
 ## Installation
 
 Add this line to your application's Gemfile:
