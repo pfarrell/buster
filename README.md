@@ -1,6 +1,9 @@
 # Buster
 
-TODO: Write a gem description
+Stream listener and publisher.  
+
+Uses Redis to publish tweets.
+Sinatra app to create streaming api.
 
 ## Installation
 
