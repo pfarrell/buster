@@ -2,11 +2,27 @@
   <head>
   </head>
   <body>
-    <article id="log"></article>
     <script>
       var stream = new EventSource('/tweet_stream');
       stream.addEventListener('message', function(event) {
-        log.innerText += "\n" + event.data;
+        console.log(event.data);
+      }, false);
+      
+
+      stream.addEventListener('message', function(e) {
+          console.log(e.data);
+      }, false);
+
+      stream.addEventListener('open', function(e) {
+          console.log(e);
+          // Connection was opened.
+      }, false);
+
+      stream.addEventListener('error', function(e) {
+          console.log(e);
+          if (e.readyState == EventSource.CLOSED) {
+                // Connection was closed.
+                  }
       }, false);
     </script>
   </body>

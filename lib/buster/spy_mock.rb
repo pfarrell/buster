@@ -12,6 +12,7 @@ class SpyMock
   def sample(&block)
     while(true) do
     @tweets.each {|tweet| block.call(self, tweet)}
+    sleep 0.5
     end
   end
     
