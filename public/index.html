@@ -2,10 +2,15 @@
   <head>
   </head>
   <body>
+    <div id="tweet" />
     <script>
+      function update(json) {
+        document.getElementById("tweet").innerHTML = JSON.parse(json.message).text;
+      }
+
       var stream = new EventSource('/tweet_stream');
       stream.addEventListener('message', function(event) {
-        console.log(event.data);
+        update(JSON.parse(event.data));
       }, false);
       
 

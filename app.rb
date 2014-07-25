@@ -31,7 +31,9 @@ class Windowing < Sinatra::Base
       settings.r.subscribe "tweets:raw" do |on|
         on.message do |channel, msg|
           settings.connections.each do |out|
-            out.puts("data: #{{time: Time.now, channel: channel, message: msg}.to_json}\n\n") unless out.closed
+            if rand > 0.98
+              out.puts("data: #{{time: Time.now, channel: channel, message: msg}.to_json}\n\n") unless out.closed
+            end
           end
         end
       end
