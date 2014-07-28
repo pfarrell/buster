@@ -6,15 +6,25 @@
     <script>
 
 var msgs = 0
-      function update(msg) {
-        msgs = msgs + 1;
-        stop = true;
-        document.getElementById("tweets").innerHTML = "<img src='" + msg.message.user.profile_image_uri + "' height=100px/> " + msg.message.text;
+var queue = [];
+
+      function update() {
+        var msg = queue.shift();
+        var delay = 250;
+        if(msg != null) {
+          document.getElementById("tweets").innerHTML = "<img src='" + msg.message.user.profile_image_uri + "' height=100px/> " + msg.message.text;
+          delay = 5000;
+          console.log(" pop:" + queue.length);
+        }else {
+          delay = 5000;
+          console.log("none: " + queue.length);
+        }
       }
 
       var stream = new EventSource('/tweet_stream');
       stream.addEventListener('message', function(event) {
-        update(JSON.parse(event.data));
+        //if(queue.length > 10) queue.pop();
+        queue.push(JSON.parse(event.data));
       }, false);
       
 
@@ -29,6 +39,8 @@ var msgs = 0
                 // Connection was closed.
                   }
       }, false);
+      update();
+      window.setInterval(function() {update()}, 3000);
     </script>
   </body>
 </html>
