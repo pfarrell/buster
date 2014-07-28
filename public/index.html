@@ -2,10 +2,14 @@
   <head>
   </head>
   <body>
-    <div id="tweet" />
+    <div id="tweets" />
     <script>
-      function update(json) {
-        document.getElementById("tweet").innerHTML = JSON.parse(json.message).text;
+
+var msgs = 0
+      function update(msg) {
+        msgs = msgs + 1;
+        stop = true;
+        document.getElementById("tweets").innerHTML = "<img src='" + msg.message.user.profile_image_uri + "' height=100px/> " + msg.message.text;
       }
 
       var stream = new EventSource('/tweet_stream');
@@ -13,10 +17,6 @@
         update(JSON.parse(event.data));
       }, false);
       
-
-      stream.addEventListener('message', function(e) {
-          console.log(e.data);
-      }, false);
 
       stream.addEventListener('open', function(e) {
           console.log(e);

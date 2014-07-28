@@ -9,6 +9,7 @@ $raw = "tweets:raw"
 $tagged = "tweets:tagged"
 
 def broadcast(spy, tweet)
+  print "."
   json = tweet.to_json
   $redis.publish($raw, json)
   $redis.publish($urls, json) if json["urls"] && json["urls"].size > 0
