@@ -2,21 +2,26 @@
   <head>
   </head>
   <body>
-    <div id="tweets" />
+    <div id="tweets0"></div>
+    <div id="tweets1"></div>
+    <div id="tweets2"></div>
+    <div id="tweets3"></div>
+    <div id="tweets4"></div>
     <script>
 
-var msgs = 0
-var queue = [];
+      var msgs = 0
+      var queue = [];
 
       function update() {
+        msgs += 1
         var msg = queue.shift();
         var delay = 250;
         if(msg != null) {
-          document.getElementById("tweets").innerHTML = "<img src='" + msg.message.user.profile_image_uri + "' height=100px/> " + msg.message.text;
-          delay = 5000;
+          document.getElementById("tweets" + (msgs % 5)).innerHTML = "<table><tr><td><img src='" + msg.message.user.profile_image_uri + "' height=100px/></td><td align='center'><table><tr><td><a target='_' href='http://twitter.com/" + msg.message.user.screen_name + "'>" + msg.message.user.screen_name + "</a></td></tr><tr><td>" + msg.message.text + "</td></tr></table></td></tr></table>";
+          delay = 300;
           console.log(" pop:" + queue.length);
         }else {
-          delay = 5000;
+          delay = 1000;
           console.log("none: " + queue.length);
         }
       }
@@ -40,7 +45,7 @@ var queue = [];
                   }
       }, false);
       update();
-      window.setInterval(function() {update()}, 3000);
+      window.setInterval(function() {update()}, 1000);
     </script>
   </body>
 </html>

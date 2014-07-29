@@ -20,7 +20,7 @@ class Windowing < Sinatra::Base
   end
 
   get '/tweet_stream', provides: 'text/event-stream' do
-    threshold = 0.98
+    threshold = 0.0
     stream :keep_open do |out|
       content_type "text/event-stream"
       settings.connections << out
