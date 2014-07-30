@@ -1,32 +1,48 @@
 <html>
   <head>
     <meta charset="utf-8"> 
+    <style>
+      body {
+        background-color:yellow;
+        height:1000px;
+      }
+      .tweet {
+        background-color:white;
+        height:73px;
+      }
+
+    </style>
+    <script>
+     function getParam(name) {
+       name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+       var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex.exec(location.search);
+       return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+      } 
+    </script>
   </head>
   <body>
-    <div id="tweets0"></div>
-    <div id="tweets1"></div>
-    <div id="tweets2"></div>
-    <div id="tweets3"></div>
-    <div id="tweets4"></div>
-    <div id="tweets5"></div>
-    <div id="tweets6"></div>
-    <div id="tweets7"></div>
-    <div id="tweets8"></div>
+    <div id="tweets0" class="tweet"></div>
+    <div id="tweets1" class="tweet"></div>
+    <div id="tweets2" class="tweet"></div>
+    <div id="tweets3" class="tweet"></div>
+    <div id="tweets4" class="tweet"></div>
+    <div id="tweets5" class="tweet"></div>
+    <div id="tweets6" class="tweet"></div>
+    <div id="tweets7" class="tweet"></div>
+    <div id="tweets8" class="tweet"></div>
     <script>
 
       var msgs = 0
       var queue = [];
+      var delay = getParam("delay") || 300;
 
       function update() {
         msgs += 1
         var msg = queue.shift();
-        var delay = 250;
         if(msg != null) {
           document.getElementById("tweets" + (msgs % 9)).innerHTML = "<table><tr><td><img src='" + msg.message.user.profile_image_uri + "' /></td><td align='center'><table><tr><td><a target='_' href='http://twitter.com/" + msg.message.user.screen_name + "'>" + msg.message.user.screen_name + "</a></td></tr><tr><td>" + msg.message.text + "</td></tr></table></td></tr></table>";
-          delay = 300;
           console.log(" pop:" + queue.length);
         }else {
-          delay = 1000;
           console.log("none: " + queue.length);
         }
       }
@@ -50,7 +66,7 @@
                   }
       }, false);
       update();
-      window.setInterval(function() {update()}, 1000);
+      window.setInterval(function() {update()}, delay);
     </script>
   </body>
 </html>
