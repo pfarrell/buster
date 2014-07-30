@@ -7,6 +7,6 @@ class Twitter::User
       screen_name: screen_name,
       location: location, 
       statuses_count: statuses_count, 
-      profile_image_uri: profile_image_uri(size= :original)}.to_json
+      profile_image_uri: profile_image_uri(size= :bigger)}.to_json
   end
 end
