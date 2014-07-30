@@ -225,7 +225,7 @@
         if(msg != null) {
           document.getElementById("img" + (msgs % img_cnt)).src= msg.message.user.profile_image_uri; 
           document.getElementById("link" + (msgs % img_cnt)).href= "http://twitter.com/" + msg.message.user.screen_name; 
-          document.getElementById("link" + (msgs % img_cnt)).title= msgs % img_cnt + " " + msg.message.user.screen_name + ": " + msg.message.text; 
+          document.getElementById("link" + (msgs % img_cnt)).title= msg.message.text + " (" + msg.message.user.screen_name + ")"; 
           console.log(" pop:" + queue.length);
         }else {
           console.log("none: " + queue.length);
