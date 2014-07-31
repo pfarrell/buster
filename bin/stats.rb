@@ -18,9 +18,10 @@ begin
   pubsub = Thread.new {
     $r.subscribe "tweets:raw" do |on|
       on.message do |channel, msg|
-        ctr += 1
         next if msg.nil? || msg.size < 2
         tweet = JSON.parse(msg)
+        next unless msg["lang"] = "en"
+        ctr += 1
         dict.add(tweet["text"])
         output($stderr, dict, ctr) if(ctr % 500 == 0)
         #dict.delete_if {|key,val| val.count < 3 } if(ctr % 5000 == 0)
