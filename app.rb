@@ -34,7 +34,7 @@ class Windowing < Sinatra::Base
           raw = JSON.parse(msg)
           settings.connections.each do |out|
             s = rand
-            out.puts("data: #{{time: Time.now, channel: channel, message: raw}.to_json}\n\n") if !out.closed && s > threshold && raw["lang"] == "en"
+            out.puts("data: #{{time: Time.now, channel: channel, message: raw}.to_json}\n\n") if !out.closed && s > threshold# && raw["lang"] == "en"
           end
         end
       end
