@@ -11,39 +11,67 @@
       color: white;
     }
     </style>
+    <script>
+     function getParam(name) {
+       name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+       var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex.exec(location.search);
+       return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+      } 
+    </script>
   </head>
   <body>
     <div class="chart"></div>
-    <input type="text" id="datavals"></input>
-    <input type="button" value="set array vals" onclick="set_data(document.getElementById('datavals').value);"></input>
     <script>
-      var data = [4,8,15,16,23,42];
+      var max_val = 0;
       function returnInt(element){
         return parseInt(element,10);
       }
 
-      function set_data(data) {
+      function set_data(val, callback) {
         d3.selectAll(".chart div").remove();
-        data = data.split(",").map(returnInt);
+        if(val > max_val) { max_val = val; } 
         x = d3.scale.linear()
-          .domain([0, d3.max(data)])
+          .domain([0, max_val])
           .range([0, 420]);
         d3.select(".chart")
           .selectAll("div")
-            .data(data)
+            .data([val])
           .enter().append("div")
           .style("width", function(d) { return x(d) + "px";})
           .text(function(d) {return d;});
+          callback();
       }  
-      var x = d3.scale.linear()
-          .domain([0, d3.max(data)])
-          .range([0, 420]);
-      d3.select(".chart")
-        .selectAll("div")
-          .data(data)
-        .enter().append("div")
-        .style("width", function(d) { return x(d) + "px";})
-        .text(function(d) {return d;});
+
+      var msgs = 0
+      var queue = [];
+      var delay = getParam("delay") || 1000;
+
+      function update() {
+        console.log(msgs);
+        set_data(msgs, function() { msgs = 0;});
+      }
+
+      var stream = new EventSource('/tweet_stream');
+      stream.addEventListener('message', function(event) {
+        //if(queue.length > 10) queue.pop();
+        msgs += 1;
+        //queue.push(JSON.parse(event.data));
+      }, false);
+      
+
+      stream.addEventListener('open', function(e) {
+        console.log(e);
+        // Connection was opened.
+      }, false);
+
+      stream.addEventListener('error', function(e) {
+          console.log(e);
+          if (e.readyState == EventSource.CLOSED) {
+            // Connection was closed.
+          }
+      }, false);
+      update();
+      window.setInterval(function() {update()}, delay);
       d3.select("body")
         .style("background-color", "orange");
     </script>
