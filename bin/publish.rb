@@ -17,4 +17,4 @@ end
 
 bus = $connected ? Spy.new : SpyMock.new("spec/fixtures/tweets_redacted.json")
 
-bus.sample(language: "jp"){|spy, tweet| broadcast(spy,tweet)}
+bus.sample{|spy, tweet| broadcast(spy,tweet)}
