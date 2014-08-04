@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <script src="/js/d3.min.js"></script>
+    <style>
+    .chart div {
+      font: 10px sans-serif;
+      background-color: steelblue;
+      text-align: right;
+      padding: 3px;
+      margin: 1px;
+      color: white;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="chart"></div>
+    <input type="text" id="datavals"></input>
+    <input type="button" value="set array vals" onclick="set_data(document.getElementById('datavals').value);"></input>
+    <script>
+      var data = [4,8,15,16,23,42];
+      function returnInt(element){
+        return parseInt(element,10);
+      }
+
+      function set_data(data) {
+        d3.selectAll(".chart div").remove();
+        data = data.split(",").map(returnInt);
+        x = d3.scale.linear()
+          .domain([0, d3.max(data)])
+          .range([0, 420]);
+        d3.select(".chart")
+          .selectAll("div")
+            .data(data)
+          .enter().append("div")
+          .style("width", function(d) { return x(d) + "px";})
+          .text(function(d) {return d;});
+      }  
+      var x = d3.scale.linear()
+          .domain([0, d3.max(data)])
+          .range([0, 420]);
+      d3.select(".chart")
+        .selectAll("div")
+          .data(data)
+        .enter().append("div")
+        .style("width", function(d) { return x(d) + "px";})
+        .text(function(d) {return d;});
+      d3.select("body")
+        .style("background-color", "orange");
+    </script>
+  </body>
+</html>
