@@ -15,10 +15,10 @@
   <body>
     <div><svg class="chart"></svg></div>
     <script>
-      var segments = 10
+      var segments = 29;
       //var data = new Array(segments).join('0').split('');
-      var data = [];
-      var w = 20, h = 100;
+      var data = new Array(segments).join('0').split('');
+      var w = 5, h = 100;
       var msgs = 0
 
       var stream = new EventSource('/tweet_stream');
@@ -49,14 +49,13 @@
           .append("text")
         .attr     
        
-
+      var updates = 0;
       function update() {
         console.log(msgs);
         if(data.length > segments) data.shift();
-        data.push(msgs);
+        data.push([msgs, updates++]);
         msgs = 0;
 
-        d3.select(".max").text = d3.max(data);
         var chart = d3.select(".chart")
             .attr("class", "chart")
             .attr("width", w * data.length)
@@ -67,30 +66,31 @@
             .range([0, w]);
                      
         var y = d3.scale.linear()
-            .domain([0, d3.max(data)])
+            .domain([0, d3.max(data)[0]])
             .range([0, h]); //rangeRound is used for antialiasing
 
         var rect = chart.selectAll("rect")
-            .data(data)
-            .attr("x", function(d, i) { return x(i) - .5; })
-            .attr("y", function(d) { return h - y(d) - .5; })
+            .data(data, function(d) { return d[1];});
+
+        rect.attr("x", function(d, i) { return x(i) - .5; })
+            .attr("y", function(d) { return h - y(d[0]) - .5; })
             .attr("width", w)
-            .attr("height", function(d) { return y(d); } );
+            .attr("height", function(d) { return y(d[0]); } );
             
         rect.enter().append("rect")
             .attr("x", function(d, i) { return x(i) - .5; })
-            .attr("y", function(d) { return h })
-          .transition()
-            .attr("y", function(d) { return h - y(d) - .5; })
+            //.attr("y", function(d) { return h })
+          //.transition()
+            .attr("y", function(d) { return h - y(d[0]) - .5; })
             .attr("width", w)
-            .attr("height", function(d) { return y(d); } );
+            .attr("height", function(d) { return y(d[0]); } );
 
         rect.exit()
             .remove();
 
       }
 
-      setInterval(function() {update();}, 500);
+      setInterval(function() {update();}, 1000);
     </script>
   </body>
 </html>
