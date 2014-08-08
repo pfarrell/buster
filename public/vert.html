@@ -1,0 +1,91 @@
+<html>
+  <head>
+    <script src="/js/d3.min.js"></script>
+    <style>
+    rect {
+      fill: steelblue;
+    }
+    .chart text {
+      fill: white;
+      font: 10px sans-serif;
+      text-anchor: end;
+    }
+    </style>
+  </head>
+  <body>
+    <svg class="chart"></svg>
+    <script>
+      var data = [8, 12, 15, 30, 43];
+      var w = 20, h = 50;
+      var msgs = 0
+
+      var stream = new EventSource('/tweet_stream');
+      stream.addEventListener('message', function(event) {
+        //if(queue.length > 10) queue.pop();
+        msgs += 1;
+        //queue.push(JSON.parse(event.data));
+      }, false);
+      
+
+      stream.addEventListener('open', function(e) {
+        console.log(e);
+        // Connection was opened.
+      }, false);
+
+      stream.addEventListener('error', function(e) {
+          console.log(e);
+          if (e.readyState == EventSource.CLOSED) {
+            // Connection was closed.
+          }
+      }, false);
+      update();
+
+      d3.select("body")
+        .style("background-color", "orange");
+
+      function update() {
+        if(data.length > 10) data.shift();
+        data.push(msgs);
+        msgs = 0;
+        var chart = d3.select(".chart")
+            .attr("class", "chart")
+            .attr("width", w * data.length)
+            .attr("height", h);
+
+        var x = d3.scale.linear()
+            .domain([0, 1])
+            .range([0, w]);
+                     
+        var y = d3.scale.linear()
+            .domain([0, 50])
+            .rangeRound([0, h]); //rangeRound is used for antialiasing
+
+        var rect = chart.selectAll("rect")
+            .data(data)
+            .attr("x", function(d, i) { return x(i) - .5; })
+            .attr("y", function(d) { return h - y(d) - .5; })
+            .attr("width", w)
+            .attr("height", function(d) { return y(d); } );
+            
+        rect.enter().append("rect")
+            .attr("x", function(d, i) { return x(i) - .5; })
+            .attr("y", function(d) { return h - y(d) - .5; })
+            .attr("width", w)
+            .attr("height", function(d) { return y(d); } );
+
+        rect.exit().remove();
+
+        // horizontal line for the x-axis
+        rect.append("line")
+             .attr("x1", 0)
+             .attr("x2", w * data.length)
+             .attr("y1", h - .5)
+             .attr("y2", h - .5)
+             .style("stroke", "#000");
+        setTimeout(function() {update();}, 2000);
+      }
+
+      setTimeout(function() {update();}, 2000);
+    </script>
+  </body>
+</html>
