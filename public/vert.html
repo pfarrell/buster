@@ -13,10 +13,12 @@
     </style>
   </head>
   <body>
-    <svg class="chart"></svg>
+    <div><svg class="chart"></svg></div>
     <script>
-      var data = new Array(30).join('0').split('');
-      var w = 20, h = 50;
+      var segments = 10
+      //var data = new Array(segments).join('0').split('');
+      var data = [];
+      var w = 20, h = 100;
       var msgs = 0
 
       var stream = new EventSource('/tweet_stream');
@@ -42,11 +44,19 @@
       d3.select("body")
         .style("background-color", "orange");
 
+      d3.select(".chart")
+        .select("text")
+          .append("text")
+        .attr     
+       
+
       function update() {
         console.log(msgs);
-        if(data.length > 30) data.shift();
+        if(data.length > segments) data.shift();
         data.push(msgs);
         msgs = 0;
+
+        d3.select(".max").text = d3.max(data);
         var chart = d3.select(".chart")
             .attr("class", "chart")
             .attr("width", w * data.length)
@@ -75,18 +85,12 @@
             .attr("width", w)
             .attr("height", function(d) { return y(d); } );
 
-        rect.exit().remove();
+        rect.exit()
+            .remove();
 
-        // horizontal line for the x-axis
-        rect.append("line")
-             .attr("x1", 0)
-             .attr("x2", w * data.length)
-             .attr("y1", h - .5)
-             .attr("y2", h - .5)
-             .style("stroke", "#000");
       }
 
-      setInterval(update, 1000);
+      setInterval(function() {update();}, 500);
     </script>
   </body>
 </html>
