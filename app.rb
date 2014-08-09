@@ -4,6 +4,8 @@ require 'redis'
 require 'json'
 require 'haml'
 require 'byebug'
+require './lib/buster'
+
 
 class Windowing < Sinatra::Base
   helpers Sinatra::Streaming
@@ -20,11 +22,11 @@ class Windowing < Sinatra::Base
   end
 
   get '/tweet_stream', provides: 'text/event-stream' do
-    threshold = 0.0
     stream :keep_open do |out|
       content_type "text/event-stream"
-      settings.connections << out
-      puts "added connection"
+      conn = Connection.new(out, pattern: params)
+      settings.connections << conn
+      puts "added connection: #{conn.inspect}"
       out.callback { 
         puts "removed connection"
         settings.connections.delete(out) 
@@ -32,9 +34,8 @@ class Windowing < Sinatra::Base
       settings.r.subscribe "tweets:raw" do |on|
         on.message do |channel, msg|
           raw = JSON.parse(msg)
-          settings.connections.each do |out|
-            s = rand
-            out.puts("data: #{{time: Time.now, channel: channel, message: raw}.to_json}\n\n") if !out.closed && s > threshold# && raw["lang"] == "en"
+          settings.connections.each do |connection|
+            connection.conn.puts("data: #{{time: Time.now, channel: channel, message: raw}.to_json}\n\n") if !connection.conn.closed
           end
         end
       end
