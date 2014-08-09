@@ -23,6 +23,10 @@
     </script>
   </head>
   <body>
+    <div id="slider">
+      <input type="range" name="refresh" min="5" value="300" max="1000" step="5" onchange="refreshDelay(this)"></input>
+      <label id="delay_lbl"></label>
+    </div>
     <div id="tweets0" class="tweet">
 			<a href="" target="_" id="link0"><img id="img0" class="profile" /></a>
 			<a href="" target="_" id="link1"><img id="img1" class="profile" /></a>
@@ -219,6 +223,7 @@
       var queue = [];
       var delay = getParam("delay") || 60;
       var img_cnt = 170;
+      document.getElementById("delay_lbl").innerHTML= delay;
 
       function update() {
         msgs += 1
@@ -231,6 +236,12 @@
         }else {
           console.log("none: " + queue.length);
         }
+        window.setTimeout(function() {update()}, delay);
+      }
+
+      function refreshDelay(elem) {
+        delay=elem.value;
+        document.getElementById("delay_lbl").innerHTML= delay;
       }
 
       var stream = new EventSource('/tweet_stream');
@@ -251,8 +262,7 @@
                 // Connection was closed.
                   }
       }, false);
-      update();
-      window.setInterval(function() {update()}, delay);
+      window.setTimeout(function() {update()}, delay);
     </script>
   </body>
 </html>
