@@ -62,10 +62,16 @@
         document.getElementById("rate").innerHTML=msgs;
         msgs = 0;
 
+        d3.svg.axis();
+
         var chart = d3.select(".chart")
+            .attr("class", "axis")
             .attr("class", "chart")
             .attr("width", w * data.length)
-            .attr("height", h);
+            .attr("height", h)
+          .append("g")
+            .attr("transform", "translate(0,30)")
+            .call(axis);
 
         var x = d3.scale.linear()
             .domain([0, 1])
