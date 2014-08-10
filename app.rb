@@ -26,7 +26,6 @@ class Windowing < Sinatra::Base
       content_type "text/event-stream"
       conn = Connection.new(out, pattern: params)
       settings.connections << conn
-      puts "added connection: #{conn.inspect}"
       out.callback { 
         puts "removed connection"
         settings.connections.delete(out) 

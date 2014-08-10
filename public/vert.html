@@ -10,10 +10,15 @@
       font: 10px sans-serif;
       text-anchor: end;
     }
+
+    #rate {
+      font: 2em sans-serif;
+    }
     </style>
   </head>
   <body>
     <div><svg class="chart"></svg></div>
+    <div><label id="rate"></label></div>
     <script>
       var segments = 29;
       //var data = new Array(segments).join('0').split('');
@@ -54,6 +59,7 @@
         console.log(msgs);
         if(data.length > segments) data.shift();
         data.push([msgs, updates++]);
+        document.getElementById("rate").innerHTML=msgs;
         msgs = 0;
 
         var chart = d3.select(".chart")
