@@ -12,6 +12,9 @@
         height:73px;
         min-width:73px;
       }
+      .slider {
+        display: inline;
+      }
 
     </style>
     <script>
@@ -23,9 +26,15 @@
     </script>
   </head>
   <body>
-    <div id="slider">
-      <input type="range" name="refresh" min="5" value="300" max="1000" step="5" onchange="refreshDelay(this)"></input>
-      <label id="delay_lbl"></label>
+    <div>
+      <div class="slider">
+        <label>Refresh Rate: </label>
+        <label id="delay_lbl"></label>          
+        <label>ms</label>
+        <br/>
+        <input type="range" name="refresh" min="5" value="60" max="500" step="5" onchange="refreshDelay(this)"></input>
+      </div>
+      <label id="buffer_size"></label>
     </div>
     <div id="tweets0" class="tweet">
 			<a href="" target="_" id="link0"><img id="img0" class="profile" /></a>
@@ -225,6 +234,10 @@
       var img_cnt = 170;
       document.getElementById("delay_lbl").innerHTML= delay;
 
+      function updateBacklog() {
+        document.getElementById("buffer_size").innerHTML = "msg backlog: " + queue.length;
+      }
+
       function update() {
         msgs += 1
         var msg = queue.shift();
@@ -263,6 +276,7 @@
                   }
       }, false);
       window.setTimeout(function() {update()}, delay);
+      window.setInterval(function() {updateBacklog()}, 1000);
     </script>
   </body>
 </html>
