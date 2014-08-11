@@ -56,7 +56,6 @@
       function update() {
         msgs += 1
         var msg = queue.shift();
-        document.getElementById("buffer_size").innerHTML = "msg backlog: " + queue.length  
         if(msg != null) {
           document.getElementById("tweets" + (msgs % 9)).innerHTML = "<table><tr><td><img src='" + msg.message.user.profile_image_uri + "' /></td><td align='center'><table><tr><td><a target='_' href='http://twitter.com/" + msg.message.user.screen_name + "'>" + msg.message.user.screen_name + "</a></td></tr><tr><td>" + msg.message.text + "</td></tr></table></td></tr></table>";
           console.log(" pop:" + queue.length);
@@ -90,6 +89,9 @@
                   }
       }, false);
       window.setTimeout(function() {update()}, delay);
+      window.setInterval(function() { 
+        document.getElementById("buffer_size").innerHTML = "msg backlog: " + queue.length;  
+      }, 1000);
     </script>
   </body>
 </html>
