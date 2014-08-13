@@ -1,8 +1,42 @@
-%html
-  %head
-    %script
-      var stream = new EventSource('/the_stream');
-      stream.onmessage = function(e) {
-        alert("I just got this from the server: " + e.data);
-      }
-  %body
+:javascript
+  var msgs = 0
+  var queue = [];
+  var delay = getParam("delay") || 300;
+  document.getElementById("delay_lbl").innerHTML= delay;
+
+  function update() {
+    msgs += 1
+    var msg = queue.shift();
+    if(msg != null) {
+      document.getElementById("tweets" + (msgs % 9)).innerHTML = "<table><tr><td><img src='" + msg.message.user.profile_image_uri + "' /></td><td align='center'><table><tr><td><a target='_' href='http://twitter.com/" + msg.message.user.screen_name + "'>" + msg.message.user.screen_name + "</a></td></tr><tr><td>" + msg.message.text + "</td></tr></table></td></tr></table>";
+      console.log(" pop:" + queue.length);
+    }else {
+      console.log("none: " + queue.length);
+    }
+    window.setTimeout(function() {update()}, delay);
+  }
+
+  function refreshDelay(elem) {
+    delay=elem.value;
+    document.getElementById("delay_lbl").innerHTML= delay;
+  }
+
+  var stream = new EventSource('/tweet_stream');
+  stream.addEventListener('message', function(event) {
+    //if(queue.length > 10) queue.pop();
+    queue.push(JSON.parse(event.data));
+  }, false);
+  
+
+  stream.addEventListener('open', function(e) {
+      console.log(e);
+      // Connection was opened.
+  }, false);
+
+  stream.addEventListener('error', function(e) {
+      console.log(e);
+      if (e.readyState == EventSource.CLOSED) {
+            // Connection was closed.
+              }
+  }, false);
+  window.setTimeout(function() {update()}, delay);

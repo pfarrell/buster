@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'sinatra/streaming'
+require 'sinatra/url_for'
 require 'redis'
 require 'json'
 require 'haml'
@@ -8,6 +9,7 @@ require './lib/buster'
 
 
 class Windowing < Sinatra::Base
+  helpers Sinatra::UrlForHelper
   helpers Sinatra::Streaming
   set connections: [], r: Redis.new
   set :server, :thin
@@ -18,7 +20,7 @@ class Windowing < Sinatra::Base
   end
 
   get '/' do
-    redirect '/index.html'
+    haml :index
   end
 
   get '/tweet_stream', provides: 'text/event-stream' do

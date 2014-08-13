@@ -14,10 +14,8 @@
     %div.navbar.navbar-default.navbar-fixed-top
       %div.container
         %div.navbar-header
-          %form.navbar-form.navbar-left{id: "search", action: "#{url_for("/search")}", method: "GET"}
-            .form-group
-              %input.form-control{type: "TEXT", id: "q", name: "q"}
-            %span.jp_current_track_title
+          %input{type:"range", name:"refresh", min:"5", value:"300", max:"1000", step:"5", onchange:"refreshDelay(this)"}
+          %label{id:"delay_lbl"}
     %div.container#content
       =yield
     %div.container
