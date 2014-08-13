@@ -20,8 +20,17 @@
     %div.navbar.navbar-default.navbar-fixed-top
       %div.container
         %div.navbar-header
-          %input{type:"range", name:"refresh", min:"5", value:"300", max:"1000", step:"5", onchange:"refreshDelay(this)"}
-          %label{id:"delay_lbl"}
+          .nav
+            %label
+              Refresh Rate: 
+            %label{id:"delay_lbl"}
+            %label
+              ms
+            %br
+            %input{type:"range", name:"refresh", min:"5", value:"300", max:"1000", step:"5", onchange:"refreshDelay(this)"}
+          .nav
+            %label#buffer_size
+            %input{type:"button", name:"queue_clear", value:"Clear", onclick:"queue=[];document.getElementById('buffer_size').innerHTML='backlog cleared';"}
     %div.container#content
       =yield
     %div.container
