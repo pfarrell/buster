@@ -1,0 +1,16 @@
+body {
+  background-color:yellow;
+  height:1000px;
+}
+.tweets {
+  margin-top:50px;
+}
+.tweet {
+  background-color:white;
+  min-width:73px;
+  max-height:73px;
+  min-height:73px;
+}
+.slider {
+  display: inline;
+}
