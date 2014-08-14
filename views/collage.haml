@@ -297,6 +297,8 @@
   var delay = getParam("delay") || 60;
   var img_cnt = 141;
   document.getElementById("delay_lbl").innerHTML= delay;
+  document.getElementById("refresh_bar").max= 500;
+  document.getElementById("refresh_bar").value = delay;
 
   function updateBacklog() {
     document.getElementById("buffer_size").innerHTML = "msg backlog: " + queue.length;

@@ -13,6 +13,8 @@
   var queue = [];
   var delay = getParam("delay") || 300;
   document.getElementById("delay_lbl").innerHTML= delay;
+  document.getElementById("refresh_bar").max= 500;
+  document.getElementById("refresh_bar").value= delay;
 
   function update() {
     msgs += 1
