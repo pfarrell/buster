@@ -29,7 +29,9 @@
     }else {
       console.log("none: " + queue.length);
     }
-    window.setTimeout(function() {update()}, delay);
+    if(enabled) {
+      window.setTimeout(function() {update()}, delay);
+    }
   }
 
   function refreshDelay(elem) {
@@ -57,6 +59,6 @@
   }, false);
   window.setTimeout(function() {update()}, delay);
   window.setInterval(function() { 
-    document.getElementById("buffer_size").innerHTML = "msg backlog: " + queue.length;  
+    document.getElementById("buffer_size").innerHTML = queue.length;  
   }, 1000);
 

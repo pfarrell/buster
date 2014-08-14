@@ -37,7 +37,9 @@
     }else {
       console.log("none: " + queue.length);
     }
-    window.setTimeout(function() {update()}, delay);
+    if(enabled) {
+      window.setTimeout(function() {update()}, delay);
+    }
   }
 
   function refreshDelay(elem) {
