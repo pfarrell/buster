@@ -51,8 +51,8 @@
               %br
               %input#refresh_bar{type:"range", name:"refresh", min:"5", value:"300", max:"1000", step:"5", onchange:"refreshDelay(this)"}
             %li.nav
-              %input.btn{type:"button", name:"pause_play", value:"Pause", onclick:"togglePlayPause(this);"}
-              %input.btn{type:"button", name:"queue_clear", value:"Clear", onclick:"queue=[];document.getElementById('buffer_size').innerHTML='backlog cleared';"}
+              %input#play_pause.btn{type:"button", name:"pause_play", value:"Pause", onclick:"togglePlayPause(this);"}
+              %input#clear.btn{type:"button", name:"queue_clear", value:"Clear", onclick:"queue=[];document.getElementById('buffer_size').innerHTML='backlog cleared';"}
               %br
               %label
                 msg backlog: 
