@@ -14,3 +14,15 @@ body {
 .slider {
  display: inline;
 }
+rect {
+  fill: steelblue;
+}
+.chart text {
+  fill: white;
+  font: 10px sans-serif;
+  text-anchor: end;
+}
+
+.analytic {
+  font: 2em sans-serif;
+}

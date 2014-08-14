@@ -12,27 +12,30 @@
         var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex.exec(location.search);
         return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
       } 
-    %link{:rel => "stylesheet", :href => "#{url_for '/css/bootstrap/3.1.1/bootstrap.min.css'}", :type => "text/css"}
-    %link{:rel => "stylesheet", :href => "#{url_for '/css/default.css'}", :type => "text/css", :media => "screen" }
-    %script{:type => "text/javascript", :src => "http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"}
+    %link{rel: "stylesheet", href: "#{url_for '/css/bootstrap/3.1.1/bootstrap.min.css'}", :type => "text/css"}
+    %link{rel: "stylesheet", href: "#{url_for '/css/default.css'}", :type => "text/css", :media => "screen" }
+    %script{type: "text/javascript", src: "http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"}
+    %script{type: "text/javascript", src:"/js/d3.min.js"}
     <!--%link{:rel => "stylesheet", :href => "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css", :type => "text/css"}-->
   %body
     %div.navbar.navbar-default.navbar-fixed-top
       %div.container
         %div.navbar-header
-          .nav
-            %label
-              Refresh Rate: 
-            %label{id:"delay_lbl"}
-            %label
-              ms
-            %br
-            %input{type:"range", name:"refresh", min:"5", value:"300", max:"1000", step:"5", onchange:"refreshDelay(this)"}
-          .nav
-            %label#buffer_size
-            %input{type:"button", name:"queue_clear", value:"Clear", onclick:"queue=[];document.getElementById('buffer_size').innerHTML='backlog cleared';"}
+          .refresh
+            .nav
+              %label
+                Refresh Rate: 
+              %label{id:"delay_lbl"}
+              %label
+                ms
+              %br
+              %input{type:"range", name:"refresh", min:"5", value:"300", max:"1000", step:"5", onchange:"refreshDelay(this)"}
+            .nav
+              %label#buffer_size
+              %input{type:"button", name:"queue_clear", value:"Clear", onclick:"queue=[];document.getElementById('buffer_size').innerHTML='backlog cleared';"}
     %div.container#content
-      =yield
+      .tweets
+        =yield
     %div.container
       %div.row
         %div.twelvecol

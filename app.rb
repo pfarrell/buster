@@ -23,6 +23,14 @@ class Windowing < Sinatra::Base
     haml :index
   end
 
+  get '/collage' do
+    haml :collage
+  end
+
+  get '/stats' do
+    haml :stats
+  end
+
   get '/tweet_stream', provides: 'text/event-stream' do
     stream :keep_open do |out|
       content_type "text/event-stream"
