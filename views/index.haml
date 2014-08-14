@@ -1,17 +1,17 @@
-#tweets0.tweet
-#tweets1.tweet
-#tweets2.tweet
-#tweets3.tweet
-#tweets4.tweet
-#tweets5.tweet
-#tweets6.tweet
-#tweets7.tweet
-#tweets8.tweet
+#tweets
 :javascript
   $('.refresh').show();
   var msgs = 0
+  var rows = getParam("rows") || 9;
   var queue = [];
   var delay = getParam("delay") || 300;
+  $('#tweets').append(function() {
+    var ret = "";
+    for(var i = 0; i<rows; i++) {
+      ret += "<div class='tweet' id='tweets" + i + "'></div>"
+    }
+    return ret;
+  });
   document.getElementById("delay_lbl").innerHTML= delay;
   document.getElementById("refresh_bar").max= 500;
   document.getElementById("refresh_bar").value= delay;
@@ -21,10 +21,10 @@
     var msg = queue.shift();
     if(msg != null) {
       if(delay >= 30) {
-        document.getElementById("tweets" + (msgs % 9)).innerHTML = "<table><tr><td><img src='" + msg.message.user.profile_image_uri + "' /></td><td align='center'><table><tr><td><a target='_' href='http://twitter.com/" + msg.message.user.screen_name + "'>" + msg.message.user.screen_name + "</a></td></tr><tr><td>" + msg.message.text + "</td></tr></table></td></tr></table>";
+        document.getElementById("tweets" + (msgs % rows)).innerHTML = "<table><tr><td><img src='" + msg.message.user.profile_image_uri + "' /></td><td align='center'><table><tr><td><a target='_' href='http://twitter.com/" + msg.message.user.screen_name + "'>" + msg.message.user.screen_name + "</a></td></tr><tr><td>" + msg.message.text + "</td></tr></table></td></tr></table>";
       }else{
         //no profile image
-        document.getElementById("tweets" + (msgs % 9)).innerHTML = "<table><tr><td><a target='_' href='http://twitter.com/" + msg.message.user.screen_name + "'>" + msg.message.user.screen_name + "</a></td></tr><tr><td>" + msg.message.text + "</td></tr></table>";
+        document.getElementById("tweets" + (msgs % rows)).innerHTML = "<table><tr><td><a target='_' href='http://twitter.com/" + msg.message.user.screen_name + "'>" + msg.message.user.screen_name + "</a></td></tr><tr><td>" + msg.message.text + "</td></tr></table>";
       }
     }else {
       console.log("none: " + queue.length);

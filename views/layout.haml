@@ -44,8 +44,7 @@
                 %label#buffer_size
                 %input{type:"button", name:"queue_clear", value:"Clear", onclick:"queue=[];document.getElementById('buffer_size').innerHTML='backlog cleared';"}
     %div.container#content
-      .tweets
-        =yield
+      =yield
     %div.container
       %div.row
         %div.twelvecol
