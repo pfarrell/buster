@@ -1,10 +1,6 @@
 #tweets
 :javascript
   $('.refresh').show();
-  var msgs = 0
-  var rows = getParam("rows") || 9;
-  var queue = [];
-  var delay = getParam("delay") || 300;
   $('#tweets').append(function() {
     var ret = "";
     for(var i = 0; i<rows; i++) {
@@ -12,9 +8,6 @@
     }
     return ret;
   });
-  document.getElementById("delay_lbl").innerHTML= delay;
-  document.getElementById("refresh_bar").max= 500;
-  document.getElementById("refresh_bar").value= delay;
 
   function update() {
     msgs += 1
@@ -33,32 +26,4 @@
       window.setTimeout(function() {update()}, delay);
     }
   }
-
-  function refreshDelay(elem) {
-    delay=elem.value;
-    document.getElementById("delay_lbl").innerHTML= delay;
-  }
-
-  var stream = new EventSource('/tweet_stream');
-  stream.addEventListener('message', function(event) {
-    //if(queue.length > 10) queue.pop();
-    queue.push(JSON.parse(event.data));
-  }, false);
-  
-
-  stream.addEventListener('open', function(e) {
-      console.log(e);
-      // Connection was opened.
-  }, false);
-
-  stream.addEventListener('error', function(e) {
-      console.log(e);
-      if (e.readyState == EventSource.CLOSED) {
-            // Connection was closed.
-              }
-  }, false);
-  window.setTimeout(function() {update()}, delay);
-  window.setInterval(function() { 
-    document.getElementById("buffer_size").innerHTML = queue.length;  
-  }, 1000);
 

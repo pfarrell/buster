@@ -22,6 +22,40 @@
           elem.value = "Play";
         }
       }
+
+      var msgs = 0
+      var rows = getParam("rows") || 9;
+      var queue = [];
+      var delay = getParam("delay") || 300;
+
+      function refreshDelay(elem) {
+        delay=elem.value;
+        document.getElementById("delay_lbl").innerHTML= delay;
+      }
+
+      var stream = new EventSource('/tweet_stream');
+      stream.addEventListener('message', function(event) {
+        //if(queue.length > 10) queue.pop();
+        queue.push(JSON.parse(event.data));
+      }, false);
+      
+
+      stream.addEventListener('open', function(e) {
+          console.log(e);
+          // Connection was opened.
+      }, false);
+
+      stream.addEventListener('error', function(e) {
+          console.log(e);
+          if (e.readyState == EventSource.CLOSED) {
+                // Connection was closed.
+                  }
+      }, false);
+      window.setTimeout(function() {window.update()}, delay);
+      window.setInterval(function() { 
+        document.getElementById("buffer_size").innerHTML = queue.length;  
+      }, 1000);
+
     %link{rel: "stylesheet", href: "#{url_for '/css/bootstrap/3.1.1/bootstrap.min.css'}", :type => "text/css"}
     %link{rel: "stylesheet", href: "#{url_for '/css/default.css'}", :type => "text/css", :media => "screen" }
     %script{type: "text/javascript", src: "http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"}
@@ -63,3 +97,8 @@
       %div.row
         %div.twelvecol
           %div.container.footer
+:javascript
+  document.getElementById("delay_lbl").innerHTML= delay;
+  document.getElementById("refresh_bar").max= 500;
+  document.getElementById("refresh_bar").value= delay;
+

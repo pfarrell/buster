@@ -1,12 +1,11 @@
 #tweets
 :javascript
   $('.refresh').show();
-  var msgs = -1
-  var queue = [];
-  var rows = getParam("rows") || 10;
-  var cols = getParam("cols") || 15;
-  var delay = getParam("delay") || 60;
+  rows = getParam("rows") || 10;
+  cols = getParam("cols") || 15;
+  delay = getParam("delay") || 60;
   var img_cnt = rows * cols;
+
   document.getElementById("delay_lbl").innerHTML= delay;
   document.getElementById("refresh_bar").max= 500;
   document.getElementById("refresh_bar").value = delay;
@@ -47,23 +46,4 @@
     document.getElementById("delay_lbl").innerHTML= delay;
   }
 
-  var stream = new EventSource('/tweet_stream');
-  stream.addEventListener('message', function(event) {
-    //if(queue.length > 10) queue.pop();
-    queue.push(JSON.parse(event.data));
-  }, false);
-  
-
-  stream.addEventListener('open', function(e) {
-      console.log(e);
-      // Connection was opened.
-  }, false);
-
-  stream.addEventListener('error', function(e) {
-      console.log(e);
-      if (e.readyState == EventSource.CLOSED) {
-            // Connection was closed.
-              }
-  }, false);
-  window.setTimeout(function() {update()}, delay);
   window.setInterval(function() {updateBacklog()}, 1000);
