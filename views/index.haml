@@ -1,15 +1,6 @@
 #tweets
 :javascript
-  $('.refresh').show();
-  $('#tweets').append(function() {
-    var ret = "";
-    for(var i = 0; i<rows; i++) {
-      ret += "<div class='tweet' id='tweets" + i + "'></div>"
-    }
-    return ret;
-  });
-
-  function update() {
+  function index_update() {
     msgs += 1
     var msg = queue.shift();
     if(msg != null) {
@@ -27,3 +18,59 @@
     }
   }
 
+  function collage_update() {
+    msgs += 1
+    var msg = queue.shift();
+    if(msg != null) {
+      document.getElementById("img" + (msgs % img_cnt)).src= msg.message.user.profile_image_uri; 
+      document.getElementById("link" + (msgs % img_cnt)).href= "http://twitter.com/" + msg.message.user.screen_name; 
+      document.getElementById("link" + (msgs % img_cnt)).title= msg.message.text + " (" + msg.message.user.screen_name + ")"; 
+    }else {
+      console.log("none: " + queue.length);
+    }
+    if(enabled) {
+      window.setTimeout(function() {window.update()}, delay);
+    }
+  }
+
+  function index() {
+    current_function = "index";
+    window.update = index_update;
+    var curr_enabled = enabled;
+    enabled = false;
+    $('.refresh').show();
+    $('#tweets').empty();
+    $('#tweets').append(function() {
+      var ret = "";
+      for(var i = 0; i<rows; i++) {
+        ret += "<div class='tweet' id='tweets" + i + "'></div>"
+      }
+      return ret;
+    });
+    enabled = curr_enabled;
+    if(current_function != "index") { window.update(); };
+  }
+
+  function collage() {
+    current_function = "collage";
+    window.update = collage_update;
+    var curr_enabled = enabled;
+    enabled = false;
+    window.img_cnt = rows * cols;
+
+    $('.refresh').show();
+    $('#tweets').empty();
+    $("#tweets").append(function() {
+      var ret = "";
+      for(var i = 0; i<rows; i++) {
+        ret += "<div class='tweets" + i + " tweet'>";
+        for(var j=0; j<cols; j++) {
+          var cell = cols*i + j;
+          ret += "<a href='' id='link" + cell + "' target='_'><img class='profile' id='img" + cell + "'></a>";
+        }
+      }
+      return ret;
+    });
+    enabled = curr_enabled;
+    if(current_function != "collage") { window.update(); };
+  }

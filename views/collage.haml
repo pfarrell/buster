@@ -10,40 +10,13 @@
   document.getElementById("refresh_bar").max= 500;
   document.getElementById("refresh_bar").value = delay;
 
-  $("#tweets").append(function() {
-    var ret = "";
-    for(var i = 0; i<rows; i++) {
-      ret += "<div class='tweets" + i + " tweet'>";
-      for(var j=0; j<cols; j++) {
-        var cell = cols*i + j;
-        ret += "<a href='' id='link" + cell + "' target='_'><img class='profile' id='img" + cell + "'></a>";
-      }
-    }
-    return ret;
-  });
-
   function updateBacklog() {
     document.getElementById("buffer_size").innerHTML = "msg backlog: " + queue.length;
   }
 
-  function update() {
-    msgs += 1
-    var msg = queue.shift();
-    if(msg != null) {
-      document.getElementById("img" + (msgs % img_cnt)).src= msg.message.user.profile_image_uri; 
-      document.getElementById("link" + (msgs % img_cnt)).href= "http://twitter.com/" + msg.message.user.screen_name; 
-      document.getElementById("link" + (msgs % img_cnt)).title= msg.message.text + " (" + msg.message.user.screen_name + ")"; 
-    }else {
-      console.log("none: " + queue.length);
-    }
-    if(enabled) {
-      window.setTimeout(function() {update()}, delay);
-    }
-  }
 
   function refreshDelay(elem) {
     delay=elem.value;
     document.getElementById("delay_lbl").innerHTML= delay;
   }
 
-  window.setInterval(function() {updateBacklog()}, 1000);
