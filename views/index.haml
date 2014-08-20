@@ -34,7 +34,6 @@
   }
 
   function index() {
-    current_function = "index";
     window.update = index_update;
     var curr_enabled = enabled;
     enabled = false;
@@ -48,11 +47,13 @@
       return ret;
     });
     enabled = curr_enabled;
-    if(current_function != "index") { window.update(); };
+    if(current_function != "index") { 
+      current_function = "index";
+      window.update(); 
+    }
   }
 
   function collage() {
-    current_function = "collage";
     window.update = collage_update;
     var curr_enabled = enabled;
     enabled = false;
@@ -72,7 +73,10 @@
       return ret;
     });
     enabled = curr_enabled;
-    if(current_function != "collage") { window.update(); };
+    if(current_function != "collage") { 
+      current_function = "collage";
+      window.update(); 
+    }
   }
 
   index();
