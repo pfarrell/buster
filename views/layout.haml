@@ -11,6 +11,7 @@
       var current_function = "";
 
       window.update = function(){};
+
       function getParam(name) {
         name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
         var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex.exec(location.search);
@@ -77,7 +78,7 @@
               %a{href:"javascript:collage();"}
                 Collage
             %li
-              %a{href:"/stats"}
+              %a{href:"javascript:stats();"}
                 Stats
           %ul.refresh.navbar-nav.navbar-right
             %li.nav
