@@ -5,6 +5,7 @@ Stream listener and publisher.
 Uses Redis to publish tweets.
 Sinatra app to create streaming api.
 
+Uses HTML Server Sent Events to publish tweets by subscribing to a pub/sub bus on redis.
 
 ## Installation
 
