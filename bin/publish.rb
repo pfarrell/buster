@@ -8,6 +8,27 @@ $urls = "tweets:urls"
 $raw = "tweets:raw"
 $tagged = "tweets:tagged"
 
+def generate_pid(file_name, process_id)
+  File.open(file_name, 'w+') {|f| f.write($$) }
+end
+
+def running?(file_name)
+  retval = true
+  if !File.exists?(file_name)
+    generate_pid(file_name, $$)
+    retval = false
+  else
+    file_pid = open(file_name).gets
+    begin
+      Process.kill 0, file_pid.to_i
+    rescue
+      generate_pid(file_name, $$)
+      retval = false
+    end
+  end
+  retval
+end
+
 def broadcast(spy, tweet)
   json = tweet.to_json
   $redis.publish($raw, json)
@@ -15,6 +36,7 @@ def broadcast(spy, tweet)
   $redis.publish($tagged, json) if json["hashtags"] && json["hashtags"].size > 0
 end
 
-bus = $connected ? Spy.new : SpyMock.new("spec/fixtures/tweets_redacted.json")
-
-bus.sample{|spy, tweet| broadcast(spy,tweet)}
+unless running?("/tmp/buster.pid")
+  bus = $connected ? Spy.new : SpyMock.new("spec/fixtures/tweets_redacted.json")
+  bus.sample{|spy, tweet| broadcast(spy,tweet)}
+end
