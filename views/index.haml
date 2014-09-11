@@ -1,5 +1,13 @@
 #tweets
 :javascript
+  function global_stats_update() {
+    if(data.length > segments) data.shift();
+    var save = msgs_curr;
+    data.push([save, updates++]);
+    cnts.push(save);
+    msgs_curr = msgs_curr - save;
+  }
+
   function index_update() {
     msgs += 1
     var msg = queue.shift();
@@ -80,16 +88,10 @@
     $('.refresh').hide();
     $('#tweets').empty();
     $("#tweets").append(function() {
-      return "<div><svg id='chart'></svg></div><div><label id='rate' class='analytic'></label></div><div><label id='avg' class='analytic'></label></div><div><label id='tot' class='analytic'></label></div>";
+      return "<div><svg id='chart'></svg></div><div><label id='rate' class='analytic'></label></div><div><label id='avg' class='analytic'></label></div><div><label id='tot' class='analytic'></label></div><div><label id='uptime' class='analytic'></label></div>";
     });
 
-    segments = 29;
-    data = new Array(segments).join('0').split('');
     w = 5, h = 100;
-    msgs = 0
-    cnts = [];
-    updates = 0;
-    last = queue.length;
 
     enabled = curr_enabled;
   }
@@ -109,16 +111,25 @@
     return ret;
   }
 
+  function time_format(duration) {
+    var milliseconds = parseInt((duration%1000)/100)
+      , seconds = parseInt((duration/1000)%60)
+      , minutes = parseInt((duration/(1000*60))%60)
+      , hours = parseInt((duration/(1000*60*60))%24);
+
+      hours = (hours < 10) ? "0" + hours : hours;
+      minutes = (minutes < 10) ? "0" + minutes : minutes;
+      seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+      return hours + ":" + minutes + ":" + seconds;
+    }
+
   function stats_update() {
     //console.log(msgs);
-    if(data.length > segments) data.shift();
-    msgs = queue.length - last
-    last = queue.length;
-    data.push([msgs, updates++]);
-    cnts.push(msgs);
-    document.getElementById("rate").innerHTML="curr: " + msgs + " msgs/sec";
+    document.getElementById("rate").innerHTML="curr: " + msgs_curr + " msgs/sec";
     document.getElementById("avg").innerHTML=" avg: " + getAvg(cnts) + " msgs/sec";
     document.getElementById("tot").innerHTML=" tot: " + getTot(cnts) + " msgs";
+    document.getElementById("uptime").innerHTML = "up: " + time_format(Math.abs(new Date() - start_time));
 
 
     var chart = d3.select("#chart")

@@ -10,6 +10,15 @@
       var enabled = true;
       var current_function = "";
 
+      var segments = 100;
+      var data = new Array(segments).join('0').split('');
+      var msgs = 0
+      var msgs_curr = 0
+      var queue = [];
+      var cnts = [];
+      var updates = 0;
+      var start_time = new Date();
+
       window.update = function(){};
 
       function getParam(name) {
@@ -27,10 +36,8 @@
         }
       }
 
-      var msgs = 0
       var rows = getParam("rows") || 9;
       var cols = getParam("cols") || 15;
-      var queue = [];
       var delay = getParam("delay") || 300;
 
       function refreshDelay(elem) {
@@ -41,6 +48,7 @@
       var stream = new EventSource('/tweet_stream');
       stream.addEventListener('message', function(event) {
         //if(queue.length > 10) queue.pop();
+        msgs_curr += 1;
         queue.push(JSON.parse(event.data));
       }, false);
       
@@ -56,10 +64,6 @@
                 // Connection was closed.
                   }
       }, false);
-      window.setTimeout(function() {window.update()}, delay);
-      window.setInterval(function() { 
-        document.getElementById("buffer_size").innerHTML = queue.length;  
-      }, 1000);
 
     %link{rel: "stylesheet", href: "#{url_for '/css/bootstrap/3.1.1/bootstrap.min.css'}", :type => "text/css"}
     %link{rel: "stylesheet", href: "#{url_for '/css/default.css'}", :type => "text/css", :media => "screen" }
@@ -113,6 +117,13 @@
   document.getElementById("refresh_bar").max= 500;
   document.getElementById("refresh_bar").value= delay;
 
+  window.setTimeout(function() {window.update()}, delay);
+  window.setInterval(function() { 
+    global_stats_update();
+    document.getElementById("buffer_size").innerHTML = queue.length;  
+  }, 1000);
+
   $(document).ready(function() {
     index();
   });
+
