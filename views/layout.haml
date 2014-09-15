@@ -68,6 +68,7 @@
     %link{rel: "stylesheet", href: "#{url_for '/css/bootstrap/3.1.1/bootstrap.min.css'}", :type => "text/css"}
     %link{rel: "stylesheet", href: "#{url_for '/css/default.css'}", :type => "text/css", :media => "screen" }
     %script{type: "text/javascript", src: "http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"}
+    %script{:type => "text/javascript", :src => "#{url_for '/js/bootstrap.min.js'}"}
     %script{type: "text/javascript", src:"/js/d3.min.js"}
     <!--%link{:rel => "stylesheet", :href => "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css", :type => "text/css"}-->
   %body
@@ -82,32 +83,33 @@
         %a.navbar-brand{href:"#{url_for("/")}"}
           Buster
       .collapse.navbar-collapse#navbar-collapse
-        %ul.nav.navbar-brand
-          %li
-            %a{href:"javascript:index();"}
-              List
-          %li
-            %a{href:"javascript:collage();"}
-              Collage
-          %li
-            %a{href:"javascript:stats();"}
-              Stats
-        %ul.refresh.nav.navbar-brand
-          %li.nav
-            %label
-              Refresh Rate: 
-            %label{id:"delay_lbl"}
-            %label
-              ms
-            %br
-            %input#refresh_bar{type:"range", name:"refresh", min:"5", value:"300", max:"1000", step:"5", onchange:"refreshDelay(this)"}
-          %li.nav
-            %input#play_pause.btn{type:"button", name:"pause_play", value:"Pause", onclick:"togglePlayPause(this);"}
-            %input#clear.btn{type:"button", name:"queue_clear", value:"Clear", onclick:"queue=[];document.getElementById('buffer_size').innerHTML='backlog cleared';"}
-            %br
-            %label
-              msg backlog: 
-            %label#buffer_size
+        %div
+          %ul.nav.navbar-nav
+            %li
+              %a{href:"javascript:index();"}
+                List
+            %li
+              %a{href:"javascript:collage();"}
+                Collage
+            %li
+              %a{href:"javascript:stats();"}
+                Stats
+          %ul.refresh.nav.navbar-brand
+            %li.nav
+              %label
+                Refresh Rate: 
+              %label{id:"delay_lbl"}
+              %label
+                ms
+              %br
+              %input#refresh_bar{type:"range", name:"refresh", min:"5", value:"300", max:"1000", step:"5", onchange:"refreshDelay(this)"}
+            %li.nav
+              %input#play_pause.btn{type:"button", name:"pause_play", value:"Pause", onclick:"togglePlayPause(this);"}
+              %input#clear.btn{type:"button", name:"queue_clear", value:"Clear", onclick:"queue=[];document.getElementById('buffer_size').innerHTML='backlog cleared';"}
+              %br
+              %label
+                msg backlog: 
+              %label#buffer_size
     .container#content
       =yield
     .container
