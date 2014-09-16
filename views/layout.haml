@@ -94,19 +94,19 @@
             %li
               %a{href:"javascript:stats();"}
                 Stats
-          %ul.refresh.nav.navbar-brand
-            %li.nav
+            %li
               %label
                 Refresh Rate: 
               %label{id:"delay_lbl"}
               %label
                 ms
-              %br
+            %li
               %input#refresh_bar{type:"range", name:"refresh", min:"5", value:"300", max:"1000", step:"5", onchange:"refreshDelay(this)"}
-            %li.nav
+            %li
               %input#play_pause.btn{type:"button", name:"pause_play", value:"Pause", onclick:"togglePlayPause(this);"}
+            %li
               %input#clear.btn{type:"button", name:"queue_clear", value:"Clear", onclick:"queue=[];document.getElementById('buffer_size').innerHTML='backlog cleared';"}
-              %br
+            %li
               %label
                 msg backlog: 
               %label#buffer_size
