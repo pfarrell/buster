@@ -94,7 +94,7 @@
             %li
               %a{href:"javascript:stats();"}
                 Stats
-            %li
+            %li.nav-group
               %label
                 Refresh Rate: 
               %label{id:"delay_lbl"}
@@ -106,7 +106,7 @@
               %input#play_pause.btn{type:"button", name:"pause_play", value:"Pause", onclick:"togglePlayPause(this);"}
             %li
               %input#clear.btn{type:"button", name:"queue_clear", value:"Clear", onclick:"queue=[];document.getElementById('buffer_size').innerHTML='backlog cleared';"}
-            %li
+            %li.nav-group
               %label
                 msg backlog: 
               %label#buffer_size
