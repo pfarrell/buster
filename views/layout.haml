@@ -65,11 +65,11 @@
                   }
       }, false);
 
-    %link{rel: "stylesheet", href: "#{url_for '/css/bootstrap/3.1.1/bootstrap.min.css'}", :type => "text/css"}
+    %link{rel: "stylesheet", href: "#{url_for '/libs/bootstrap/dist/css/bootstrap.min.css'}", :type => "text/css"}
     %link{rel: "stylesheet", href: "#{url_for '/css/default.css'}", :type => "text/css", :media => "screen" }
-    %script{type: "text/javascript", src: "http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"}
-    %script{:type => "text/javascript", :src => "#{url_for '/js/bootstrap.min.js'}"}
-    %script{type: "text/javascript", src:"/js/d3.min.js"}
+    %script{:type => "text/javascript", :src => "#{url_for '/libs/jquery/dist/jquery.min.js'}"}
+    %script{:type => "text/javascript", :src => "#{url_for '/libs/bootstrap/dist/js/bootstrap.min.js'}"}
+    %script{type: "text/javascript", src:"/libs/d3/d3.min.js"}
     <!--%link{:rel => "stylesheet", :href => "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css", :type => "text/css"}-->
   %body
     %nav.navbar.navbar-default{role: "navigation"}
