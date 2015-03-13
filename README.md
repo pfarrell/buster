@@ -1,5 +1,8 @@
 # Buster
-<p align="center"><img src="https://patf.net/images/buster_keaton_detective.jpg" alt="Buster!" width="200px"></p>
+<p align="center">
+  <img src="https://patf.net/images/buster.png" alt="Buster...">
+  <img src="https://patf.net/images/buster_keaton_detective.jpg" alt="Buster!" width="200px">
+</p>
 Stream listener and publisher.  
 
 Uses Redis to publish tweets.
