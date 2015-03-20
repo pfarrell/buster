@@ -2,7 +2,7 @@
 :javascript
   function global_stats_update() {
     if(data.length > segments) data.shift();
-    var save = msgs_curr;
+    save = msgs_curr;
     data.push([save, updates++]);
     cnts.push(save);
     msgs_curr = msgs_curr - save;
@@ -126,7 +126,7 @@
 
   function stats_update() {
     //console.log(msgs);
-    document.getElementById("rate").innerHTML="curr: " + msgs_curr + " msgs/sec";
+    document.getElementById("rate").innerHTML="curr: " + save + " msgs/sec";
     document.getElementById("avg").innerHTML=" avg: " + getAvg(cnts) + " msgs/sec";
     document.getElementById("tot").innerHTML=" tot: " + getTot(cnts) + " msgs";
     document.getElementById("uptime").innerHTML = "up: " + time_format(Math.abs(new Date() - start_time));
